@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Square from '../square/Square';
-import {cpuMoves as CPU} from '../../cpuMoves'
+import {cpuMoves, winningIndicies} from '../../cpuMoves'
 
 import './GameBoard.css';
 
@@ -12,26 +12,38 @@ class GameBoard extends Component {
       playerMarker: props.isPlayerX ? 1 : -1,
       playerMoves: 0,
       computerMoves: 0,
-      gameArray: Array(9).fill(0)
+      gameArray: Array(9).fill(0),
+      isGameOver: false
     }
-
-    this.squareArray = [];
   }
 
-  componentDidMount() {
-    console.log(this.state);
+  gameOverVerification = (prevState, combo) => {
+    return (prevState.gameArray[combo[0]] === prevState.gameArray[combo[1]]
+      && prevState.gameArray[combo[1]] === prevState.gameArray[combo[2]]
+      && prevState.gameArray[combo[0]] !== 0
+      && prevState.gameArray[combo[0]] !== 1
+      && prevState.gameArray[combo[0]] !== 2
+      && !prevState.isGameOver) || !prevState.gameArray.includes(0);
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate')
+    for (let i in winningIndicies) {
+      let combo = winningIndicies[i];
+      if (this.gameOverVerification(prevState, combo)) {
+        console.log('gameOver');
+        this.setState({isGameOver: !prevState.isGameOver});
+      }
+    }
     if (prevState.playersTurn !== this.state.playersTurn && this.state.playersTurn === false) {
       // computer must make Moves
-      this.selectSquare(CPU(this.state.gameArray, this.state.playerMarker * -1));
+      this.selectSquare(cpuMoves(this.state.gameArray, this.state.playerMarker * -1));
     }
   }
 
   selectSquare = (index) => {
     const selected = this.state.gameArray[index] !== 0;
-    if (!selected) {
+    if (!selected && !this.state.isGameOver) {
       if (this.state.playersTurn === true) {
         let newGameArray = this.state.gameArray.slice(0, index).concat(this.state.playerMarker, this.state.gameArray.slice(index + 1, this.state.gameArray.length));
         this.setState(prevState => ({
@@ -47,6 +59,8 @@ class GameBoard extends Component {
           computerMoves: prevState.computerMoves + 1
         }));
       }
+    } else {
+      console.log('this square is selected/game is over');
     }
   }
 

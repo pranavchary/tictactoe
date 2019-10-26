@@ -1,4 +1,4 @@
-const winningIndicies = [
+export const winningIndicies = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -9,9 +9,26 @@ const winningIndicies = [
   [6, 4, 2]
 ]
 
+// This function will be used to find the mode of a set of numbers in an array
+const mode = (array) => {
+  let counter = {};
+  for (let i in array) {
+    let key = array[i].toString();
+    let keys = Object.keys(counter);
+    // If the counter object does not include a property that is the same as the current array value being observed, add it and initialize its value at 1. Otherwise, increment its value by 1.
+    if (!keys.includes(key)) {
+      counter[key] = 1;
+    } else {
+      counter[key] += 1;
+    }
+  }
+  // We find the value that had the largest number of occurrences and return it for the computer to make its move.
+  return parseInt(Object.keys(counter).find(k => counter[k] === Math.max.apply(Math, Object.values(counter))), 10);
+}
+
 export function cpuMoves(gameState, computerMarker) {
   // The first thing the computer should check for is if the user is in position to win on his/her next turn. If so, the computer must block the winning move.
-  for (let i = 0; i < winningIndicies.length; i++) {
+  for (let i in winningIndicies) {
     // winningIndicies[i] should be scanned for 2 matching indicies in the set by the opponent's marker. The computer will simulatenously check for a blocking move as well as a winning move, to eliminate repetitive calculations
     // To make sure we do not alter the original winningCombo array, we are creating a shallow copy of the combbination using the slice() method.
     let winningCombo = winningIndicies[i].slice(0);
@@ -48,19 +65,30 @@ export function cpuMoves(gameState, computerMarker) {
     openCorners.push(8);
   // The computer now knows which corners are open, and will find all winning combinations involving these corners.
   var combosConsidered = [];
-  for (let i = 0; i < openCorners.length; i++) {
+  for (let i in openCorners) {
     combosConsidered = combosConsidered.concat(winningIndicies.filter(c => c.includes(openCorners[i])));
   }
   var openSpots = [];
-  for (let i = 0; i < combosConsidered.length; i++) {
+  for (let i in combosConsidered) {
     // As was done earlier for the blocking/winning move, a shallow copy of the winning combination is created so that the original remains unchanged.
     let combo = combosConsidered[i].slice(0);
     // If a user's marker is found in one of the spaces of a winningCombo, the remaining open spots will be recorded in the openSpots array, with the index corresponding to the index of the same array in combosConsidered.
+    // The computer will also "discard" an index if it's spot is not one of those specified in openCorners.
     for (let j = combo.length - 1; j >= 0; j--) {
-      if ((computerMarker * -1) === gameState[combo[j]])
+      if ((computerMarker * -1) === gameState[combo[j]] || !openCorners.includes(combo[j]))
         combo.splice(j, 1);
-      openSpots[i] = combo.concat(combo.length);
     }
+    openSpots = openSpots.concat(combo);
   }
-  console.log('array of moves', openSpots);
+  // As long as there is a corner spot available, the computer will place its marker in the one that it has determined to be most effective. If there are none available, the computer then begins to check for which of the remaining spots to place a marker in.
+  if (openCorners.length !== 0) {
+    return mode(openSpots);
+  } else {
+    let availableSpaces = [];
+    for (let i in gameState) {
+      if (gameState[i] === 0)
+        availableSpaces.push(parseInt(i, 10));
+    }
+    return availableSpaces[Math.floor(Math.random() * Math.max(availableSpaces.length))];
+  }
 }
