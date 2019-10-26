@@ -1,0 +1,23 @@
+.setup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.setup-chooseFirst,
+.setup-chooseMarker {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.chooseFirst,
+.chooseMarker {
+  opacity: 0.5;
+  min-width: 50px;
+}
+
+.selected {
+  opacity: 1;
+  font-weight: bold;
+}

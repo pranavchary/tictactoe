@@ -1,0 +1,32 @@
+.gameboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.player-name {
+  font-weight: bold;
+}
+
+.gameboard-game {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
+}
+
+.gameboard-row {
+  width: 100%;
+  flex: 1;
+  display: flex;
+}
