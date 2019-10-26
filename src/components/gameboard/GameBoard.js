@@ -17,28 +17,32 @@ class GameBoard extends Component {
     }
   }
 
-  gameOverVerification = (prevState, combo) => {
-    return (prevState.gameArray[combo[0]] === prevState.gameArray[combo[1]]
-      && prevState.gameArray[combo[1]] === prevState.gameArray[combo[2]]
-      && prevState.gameArray[combo[0]] !== 0
-      && prevState.gameArray[combo[0]] !== 1
-      && prevState.gameArray[combo[0]] !== 2
-      && !prevState.isGameOver) || !prevState.gameArray.includes(0);
+  componentDidMount() {
+    if (!this.state.playersTurn) {
+      this.selectSquare(cpuMoves(this.state.gameArray, this.state.playerMarker * -1));
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate')
     for (let i in winningIndicies) {
       let combo = winningIndicies[i];
-      if (this.gameOverVerification(prevState, combo)) {
-        console.log('gameOver');
-        this.setState({isGameOver: !prevState.isGameOver});
+      if (this.gameOverVerification(this.state, combo) && !prevState.isGameOver) {
+        this.setState({isGameOver: !prevState.isGameOver}, () => { console.log('game over'); });
+        break;
       }
     }
-    if (prevState.playersTurn !== this.state.playersTurn && this.state.playersTurn === false) {
+    if (prevState.playersTurn !== this.state.playersTurn && !this.state.playersTurn) {
       // computer must make Moves
       this.selectSquare(cpuMoves(this.state.gameArray, this.state.playerMarker * -1));
     }
+  }
+
+  gameOverVerification = (state, combo) => {
+    return (state.gameArray[combo[0]] === state.gameArray[combo[1]]
+      && state.gameArray[combo[1]] === state.gameArray[combo[2]]
+      && state.gameArray[combo[0]] !== 0
+      && state.gameArray[combo[1]] !== 0
+      && state.gameArray[combo[2]] !== 0) || !state.gameArray.includes(0);
   }
 
   selectSquare = (index) => {
