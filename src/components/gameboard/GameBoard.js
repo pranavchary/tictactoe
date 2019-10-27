@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Square from '../square/Square';
+import Button from '../button/Button';
 import {cpuMoves, winningIndicies} from '../../cpuMoves'
 
 import './GameBoard.css';
@@ -24,14 +25,16 @@ class GameBoard extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    var allowCPUMove = true;
     for (let i in winningIndicies) {
       let combo = winningIndicies[i];
       if (this.gameOverVerification(this.state, combo) && !prevState.isGameOver) {
-        this.setState({isGameOver: !prevState.isGameOver}, () => { console.log('game over'); });
+        allowCPUMove = false;
+        this.setState({isGameOver: !prevState.isGameOver});
         break;
       }
     }
-    if (prevState.playersTurn !== this.state.playersTurn && !this.state.playersTurn) {
+    if (allowCPUMove && prevState.playersTurn !== this.state.playersTurn && !this.state.playersTurn) {
       // computer must make Moves
       this.selectSquare(cpuMoves(this.state.gameArray, this.state.playerMarker * -1));
     }
@@ -63,14 +66,54 @@ class GameBoard extends Component {
           computerMoves: prevState.computerMoves + 1
         }));
       }
-    } else {
-      console.log('this square is selected/game is over');
     }
+  }
+
+  gameResult = () => {
+    if (!this.state.gameArray.includes(0))
+      return "It's a draw! (Cat's game)";
+    else if (this.state.playerMoves > this.state.computerMoves)
+      return "You win!";
+    else
+      return "Computer wins";
+  }
+
+  rematch = () => {
+    this.setState({
+      playersTurn: this.props.isPlayerFirst,
+      playerMarker: this.props.isPlayerX ? 1 : -1,
+      playerMoves: 0,
+      computerMoves: 0,
+      gameArray: Array(9).fill(0),
+      isGameOver: false
+    })
   }
 
   render() {
     return (
-      <div className="gameboard-container">
+      <div className={`gameboard-container${this.state.isGameOver ? ' fade' : ''}`}>
+        <div className={`gameboard-endgameNotify${this.state.isGameOver ? '' : ' hidden' }`}>
+          <span className="gameover-header">GAME OVER</span>
+          <span className="gameover-subtitle">
+            {this.gameResult()}
+          </span>
+          <div className="gameover-buttons">
+          <Button
+            bgColor="orange"
+            fontWeight="bold"
+            className="gameover-rematch"
+            onClick={() => this.rematch()}
+            text="Rematch"
+          />
+          <Button
+            bgColor="#d2d2d2"
+            fontWeight="bold"
+            className="gameover-rematch"
+            onClick={() => this.props.backToMenu()}
+            text="Menu"
+          />
+          </div>
+        </div>
         <div className="gameboard-header">
           <div className="user-status">
             <div className="player-name">You</div>

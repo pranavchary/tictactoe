@@ -30,12 +30,21 @@ class Main extends Component {
     this.setState({ gameStarted: true });
   }
 
+  backToMenu = () => {
+    this.setState({
+      gameStarted: false,
+      isPlayerFirst: true,
+      isPlayerX: true,
+    });
+  }
+
   render() {
     if (this.state.gameStarted) {
       return (
           <GameBoard
             isPlayerFirst={this.state.isPlayerFirst}
             isPlayerX={this.state.isPlayerX}
+            backToMenu={this.backToMenu}
           />
       )
     } else {

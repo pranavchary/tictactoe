@@ -35,10 +35,12 @@ const Setup = (props) => {
         </div>
         <div className="setup-gameStart">
           <Button
+            bgColor="orange"
+            height="40px"
+            fontWeight="bolder"
             className='gameStart'
             onClick={() => props.startGame()}
             text="Start Game"
-            bgColor="orange"
           />
         </div>
       </div>

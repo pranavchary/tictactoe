@@ -7,11 +7,12 @@ const Button = (props) => {
   const buttonStyle = {
     color: props.color,
     backgroundColor: props.bgColor,
-    height: props.height ? `${props.height}px` : 'inherit',
-    width: props.width ? `${props.width}px` : 'inherit',
-    borderRadius: `${props.radius}px`,
+    height: props.height,
+    width: props.width,
+    borderRadius: props.radius,
     boxShadow: props.boxShadow,
-    cursor: props.cursor
+    cursor: props.cursor,
+    fontWeight: props.fontWeight
   }
   return (
     <div
@@ -27,9 +28,12 @@ const Button = (props) => {
 Button.defaultProps = {
   color: '#000000',
   bgColor: '#2ecc71',
-  radius: 10,
+  height: 'inherit',
+  width: 'inherit',
+  radius: '0.5rem',
   boxShadow:  '1px 2px 3px black',
   cursor: 'pointer',
+  fontWeight: 'normal',
   className: '',
   text: 'Button'
 }
@@ -37,11 +41,12 @@ Button.defaultProps = {
 Button.propTypes = {
   color: PropTypes.string,
   bgColor: PropTypes.string,
-  height: PropTypes.number,
-  width: PropTypes.number,
-  radius: PropTypes.number,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  radius: PropTypes.string,
   boxShadow: PropTypes.string,
   cursor: PropTypes.string,
+  fontWeight: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   text: PropTypes.string

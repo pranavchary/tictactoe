@@ -10,12 +10,11 @@ class Square extends Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.marker !== this.props.marker) {
-      this.marker(this.props.marker);
-    }
+    if (prevProps.marker !== this.props.marker)
+      this.setMarker(this.props.marker);
   }
 
-  marker = (val) => {
+  setMarker = (val) => {
     switch(val) {
       case 1:
         this.setState({marker: 'X'});
@@ -24,6 +23,7 @@ class Square extends Component {
         this.setState({marker: 'O'});
         break;
       default:
+      this.setState({marker: ''});
         break;
     }
   }
