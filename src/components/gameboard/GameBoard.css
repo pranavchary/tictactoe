@@ -5,8 +5,8 @@
   position: relative;
 }
 
-.gameboard-container.fade .gameboard-header,
-.gameboard-container.fade .gameboard-game {
+.gameboard-container.faded .gameboard-header,
+.gameboard-container.faded .gameboard-game {
   opacity: 0.3;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .gameover-subtitle {
-font-size: 125%;
+  font-size: 125%;
   font-weight: 500;
   margin-top: 5%;
 }
@@ -43,10 +43,6 @@ font-size: 125%;
   display: flex;
   align-items: center;
   justify-content: space-around;
-}
-
-.hidden {
-  display: none;
 }
 
 .gameboard-header {

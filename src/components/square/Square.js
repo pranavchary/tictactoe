@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import './Square.css';
 
@@ -28,12 +29,36 @@ class Square extends Component {
     }
   }
 
+  squareStyle =() => {
+    switch(this.props.specialSquare) {
+      case 'top-left':
+        return { borderTop: 'none', borderLeft: 'none' }
+      case 'top':
+        return { borderTop: 'none' }
+      case 'top-right':
+        return { borderTop: 'none', borderRight: 'none' }
+      case 'left':
+        return { borderLeft: 'none' }
+      case 'right':
+        return { borderRight: 'none' }
+      case 'bottom-left':
+        return { borderBottom: 'none', borderLeft: 'none' }
+      case 'bottom':
+        return { borderBottom: 'none' }
+      case 'bottom-right':
+        return { borderBottom: 'none', borderRight: 'none' }
+      default:
+        return {}
+    }
+  }
+
   render() {
     return (
       <div
-        id={this.props.index}
+        id={`square${this.props.index}`}
         className="square"
         onClick={this.props.onClick}
+        style={this.squareStyle()}
       >
         <div className="square-marker">
           {this.state.marker}
@@ -41,6 +66,18 @@ class Square extends Component {
       </div>
     )
   }
+}
+
+Square.defaultProps = {
+  marker: 0,
+  specialSquare: ''
+}
+
+Square.propTypes = {
+  marker: PropTypes.number,
+  index: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  specialSquare: PropTypes.string
 }
 
 export default Square;

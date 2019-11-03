@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Square from '../square/Square';
 import Button from '../button/Button';
-import {cpuMoves, winningIndicies} from '../../cpuMoves'
+import {cpuMoves, winningIndicies} from '../../cpuMoves';
 
 import './GameBoard.css';
 
@@ -91,7 +92,7 @@ class GameBoard extends Component {
 
   render() {
     return (
-      <div className={`gameboard-container${this.state.isGameOver ? ' fade' : ''}`}>
+      <div className={`gameboard-container${this.state.isGameOver ? ' faded' : ''}`}>
         <div className={`gameboard-endgameNotify${this.state.isGameOver ? '' : ' hidden' }`}>
           <span className="gameover-header">GAME OVER</span>
           <span className="gameover-subtitle">
@@ -126,24 +127,74 @@ class GameBoard extends Component {
         </div>
         <div className="gameboard-game">
           <div className="gameboard-row">
-            <Square index={0} marker={this.state.gameArray[0]} onClick={() => this.selectSquare(0)} />
-            <Square index={1} marker={this.state.gameArray[1]} onClick={() => this.selectSquare(1)} />
-            <Square index={2} marker={this.state.gameArray[2]} onClick={() => this.selectSquare(2)} />
+            <Square
+              index={0}
+              marker={this.state.gameArray[0]}
+              onClick={() => this.selectSquare(0)}
+              specialSquare='top-left'
+            />
+            <Square
+              index={1}
+              marker={this.state.gameArray[1]}
+              onClick={() => this.selectSquare(1)}
+              specialSquare='top'
+            />
+            <Square
+              index={2}
+              marker={this.state.gameArray[2]}
+              onClick={() => this.selectSquare(2)}
+              specialSquare='top-right'
+            />
           </div>
           <div className="gameboard-row">
-            <Square index={3} marker={this.state.gameArray[3]} onClick={() => this.selectSquare(3)} />
+            <Square
+              index={3}
+              marker={this.state.gameArray[3]}
+              onClick={() => this.selectSquare(3)}
+              specialSquare='left'
+            />
             <Square index={4} marker={this.state.gameArray[4]} onClick={() => this.selectSquare(4)} />
-            <Square index={5} marker={this.state.gameArray[5]} onClick={() => this.selectSquare(5)} />
+            <Square
+              index={5}
+              marker={this.state.gameArray[5]}
+              onClick={() => this.selectSquare(5)}
+              specialSquare='right'
+            />
           </div>
           <div className="gameboard-row">
-            <Square index={6} marker={this.state.gameArray[6]} onClick={() => this.selectSquare(6)} />
-            <Square index={7} marker={this.state.gameArray[7]} onClick={() => this.selectSquare(7)} />
-            <Square index={8} marker={this.state.gameArray[8]} onClick={() => this.selectSquare(8)} />
+            <Square
+              index={6}
+              marker={this.state.gameArray[6]}
+              onClick={() => this.selectSquare(6)}
+              specialSquare='bottom-left'
+            />
+            <Square
+              index={7}
+              marker={this.state.gameArray[7]}
+              onClick={() => this.selectSquare(7)}
+              specialSquare='bottom'
+            />
+            <Square
+              index={8}
+              marker={this.state.gameArray[8]}
+              onClick={() => this.selectSquare(8)}
+              specialSquare='bottom-right'
+            />
           </div>
         </div>
       </div>
     )
   }
+}
+
+GameBoard.defaultProps = {
+  isPlayerFirst: true,
+  isPlayerX: true
+}
+
+GameBoard.propTypes = {
+  isPlayerFirst: PropTypes.bool.isRequired,
+  isPlayerX: PropTypes.bool.isRequired
 }
 
 export default GameBoard;
