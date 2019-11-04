@@ -2,13 +2,16 @@ import React from "react";
 import PropTypes from 'prop-types';
 import Button from "../button/Button";
 
+import Logo from '../../logo.png';
 import "./Setup.css";
 
 const Setup = (props) => {
     return (
       <div className="setup-container">
         <div className="setup-title">
+          <img className="setup-logo" src={Logo} alt="logo" />
           <span className="title-text">Tic-Tac-Toe</span>
+          <img className="setup-logo" src={Logo} alt="logo" />
           <h5>by Pranav Chary</h5>
         </div>
         <div className="setup-chooseFirst">

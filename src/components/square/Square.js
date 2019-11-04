@@ -29,7 +29,7 @@ class Square extends Component {
     }
   }
 
-  squareStyle =() => {
+  setSquareStyle =() => {
     switch(this.props.specialSquare) {
       case 'top-left':
         return { borderTop: 'none', borderLeft: 'none' }
@@ -58,7 +58,7 @@ class Square extends Component {
         id={`square${this.props.index}`}
         className="square"
         onClick={this.props.onClick}
-        style={this.squareStyle()}
+        style={this.setSquareStyle()}
       >
         <div className="square-marker">
           {this.state.marker}

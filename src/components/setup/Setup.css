@@ -2,12 +2,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #e2e2e2;
-  height: 100%;
 }
 
 .setup-title {
   text-align: center;
+}
+
+.setup-logo {
+  vertical-align: middle;
+  height: auto;
+  width: 10%;
+  margin: 0 10px;
 }
 
 .title-text {

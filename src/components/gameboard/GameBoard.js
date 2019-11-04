@@ -100,7 +100,6 @@ class GameBoard extends Component {
           </span>
           <div className="gameover-buttons">
           <Button
-            bgColor="orange"
             fontWeight="bold"
             className="gameover-rematch"
             onClick={() => this.rematch()}
